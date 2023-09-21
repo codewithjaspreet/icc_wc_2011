@@ -27,15 +27,19 @@ def get_data():
     match_dates = wait.until(EC.presence_of_all_elements_located((By.XPATH, "//div[@class='ds-p-0']//div[@class='ds-text-compact-xs ds-font-bold ds-w-24']")))
 
     teams = wait.until(EC.presence_of_all_elements_located((By.XPATH,"//p[@class='ds-text-tight-m ds-font-bold ds-capitalize ds-truncate']")))
-    
+
+    winning_margins = wait.until(EC.presence_of_all_elements_located((By.XPATH,"//p[@class='ds-text-tight-s ds-font-regular ds-line-clamp-2 ds-text-typo']")))
     all_matches_date = []
     team1 = []
     team2 = []
+    margins = []
 
 
 
     for match in match_dates:
         all_matches_date.append(match.text)
+
+    
 
     for i  , team in enumerate(teams):
 
@@ -50,6 +54,14 @@ def get_data():
         print(team1[i])
         print(team2[i])
         
+    for margin in winning_margins:
+        print(margin.text)
+        print("---------------------------------------------------")
+
+
+  
+
+
 
 if __name__ == "__main__":
     get_data()
