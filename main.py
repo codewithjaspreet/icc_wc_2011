@@ -32,7 +32,6 @@ def get_data():
     all_matches_date = []
     team1 = []
     team2 = []
-    margins = []
 
 
 
@@ -58,6 +57,8 @@ def get_data():
     for margin in winning_margins:
         print(margin.text)
         print("---------------------------------------------------")
+
+
 
 
   
