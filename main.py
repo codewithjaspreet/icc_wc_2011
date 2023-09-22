@@ -54,6 +54,7 @@ def get_data():
         print(team1[i])
         print(team2[i])
         
+        
     for margin in winning_margins:
         print(margin.text)
         print("---------------------------------------------------")
