@@ -18,25 +18,117 @@ chrome_options.add_argument("--start-maximized")
 
 driver = webdriver.Chrome( options=chrome_options)
 
-def match_details( url , batting_list_team1  ):
+def get_batsman_name( url    ):
     driver.get(url)
     wait = WebDriverWait(driver, 10)
 
-    match_data = wait.until(EC.presence_of_element_located((By.XPATH, " //table[@class='ds-w-full ds-table ds-table-md ds-table-auto  ci-scorecard-table']/tbody")))
+    # match_data = wait.until(EC.presence_of_element_located((By.XPATH, " //table[@class='ds-w-full ds-table ds-table-md ds-table-auto  ci-scorecard-table']/tbody")))
 
-    batting_list_team1.append(match_data.text)
+    batter_names = wait.until(EC.presence_of_all_elements_located((By.XPATH, "//td[@class='ds-w-0 ds-whitespace-nowrap ds-min-w-max ds-flex ds-items-center']")))
+
+    batter_names = [ batter.text for batter in batter_names ]
+
+    return batter_names
 
 
 
+def get_All(url):
+
+    driver.get(url)
+    wait = WebDriverWait(driver, 10)
+
+    # match_data = wait.until(EC.presence_of_element_located((By.XPATH, " //table[@class='ds-w-full ds-table ds-table-md ds-table-auto  ci-scorecard-table']/tbody")))
+
+    all = wait.until(EC.presence_of_all_elements_located((By.XPATH, "//tbody//tr")))
+
+    all_data = [ batter.text for batter in all ]
+
+    return all_data
+
+
+def get_batsman_and_bowler_data(raw_list):
+
+    batsman_data = []
+    bowler_data = []
+
+
+    for sublist in raw_list:
+
+        for item in sublist:
+
+
+            if item.count('\n') == 2:
+                batsman_data.append(item)
+
+            if item.count('\n') == 1 and "not out" in item:
+                batsman_data.append(item)
+
+            if item.count('\n') == 3 :
+
+                bowler_data.append(item)
+
+            
+
+
+    return batsman_data, bowler_data
+
+
+
+def make_csv(file_name, list):
+
+    csv_filename =  file_name + ".csv"
+
+    # Write the flattened_list to the CSV file
+    with open(csv_filename, mode='w', newline='') as csv_file:
+        writer = csv.writer(csv_file)
+        
+        # Write each element in flattened_list as a row in the CSV file
+        for item in list:
+            writer.writerow([item])
+
+    print(f"CSV file '{csv_filename}' has been created.")
+
+
+
+
+def filter_list(data):
+
+    keywords_to_filter = [
+    "Extras", "TOTAL", "Did not bat", "Fall of wickets", "Toss", "Series", "Season", "Player",
+    "Match number", "Hours of play", "Match days", "Umpires", "Reserve Umpire", "Match Referee",
+    "TV Umpire",
+    "Points", "PAK", "SL", "AUS", "NZ", "ZIM", "CAN", "KENYA", "SA", "IND", "ENG", "WI", "BAN",
+    "IRE", "NED"
+]
+
+# Create a new 2D list with filtered data
+    filtered_data = []
+
+    for sublist in data:
+        filtered_sublist = []
+
+        for item in sublist:
+            # Check if any keyword starts the line
+            if any(item.strip().startswith(keyword) for keyword in keywords_to_filter) or len(item) == 0: 
+                # If a keyword is found, skip this line
+                continue
+            else:
+                filtered_sublist.append(item)
+
+        filtered_data.append(filtered_sublist)
+
+    # Print the filtered data
+    return filtered_data
+        
         
 
 if __name__ == "__main__":
 
 
     match_urls = [
-        "https://www.espncricinfo.com/series/icc-cricket-world-cup-2010-11-381449/bangladesh-vs-india-1st-match-group-b-433558/full-scorecard",
-        "https://www.espncricinfo.com/series/icc-cricket-world-cup-2010-11-381449/kenya-vs-new-zealand-2nd-match-group-a-433559/full-scorecard"
-        # "https://www.espncricinfo.com/series/icc-cricket-world-cup-2010-11-381449/sri-lanka-vs-canada-3rd-match-group-a-433560/full-scorecard",
+        "https://www.espncricinfo.com/series/icc-cricket-world-cup-2010-11-381449/bangladesh-vs-india-1st-match-group-b-433558/full-scorecard"
+        # "https://www.espncricinfo.com/series/icc-cricket-world-cup-2010-11-381449/kenya-vs-new-zealand-2nd-match-group-a-433559/full-scorecard",
+        # "https://www.espncricinfo.com/series/icc-cricket-world-cup-2010-11-381449/sri-lanka-vs-canada-3rd-match-group-a-433560/full-scorecard"
         # "https://www.espncricinfo.com/series/icc-cricket-world-cup-2010-11-381449/australia-vs-zimbabwe-4th-match-group-a-433561/full-scorecard",
         # "https://www.espncricinfo.com/series/icc-cricket-world-cup-2010-11-381449/england-vs-netherlands-5th-match-group-b-433562/full-scorecard",
         # "https://www.espncricinfo.com/series/icc-cricket-world-cup-2010-11-381449/kenya-vs-pakistan-6th-match-group-a-433563/full-scorecard",
@@ -88,103 +180,33 @@ if __name__ == "__main__":
 
     ]
 
-    raw_team1_data = []
-    final_batting_team1_data = []
+    total_data = []
 
     for url in match_urls:
-        match_details(url , batting_list_team1=raw_team1_data)
 
-
-        split_data = []
-
-        for item in raw_team1_data:
-             split_data.extend(item.split('\n'))
-
+        rows = get_All(url)
+        total_data.append(rows)
         
-        filter_data = []
+    temp = filter_list(total_data)
 
-        for item in split_data:
-            if item.startswith("Extras"):
-                break
-            filter_data.append(item)
+    # print(temp)
 
-        print(filter_data)
-        final_batting_team1_data.append(filter_data)
-        raw_team1_data.clear()
     
-    print(final_batting_team1_data)
 
 
+    
+    batsman_data, bowler_data = get_batsman_and_bowler_data(temp)
+
+    print(batsman_data)
+
+    print("--------------------------------------------------")
+    print("--------------------------------------------------")
 
 
+    print(bowler_data)
 
-
+   
 while True:
     pass  
 
 
-
-# [
-#     [
-#         "Virender Sehwag ",  -- batsman name 
-#         "b Shakib Al Hasan", 
-#         "175 140 198 14 5 125.00",  - Runs , Balls , Minutes , 4s , 6s , Strike Rate
-#         "Sachin Tendulkar ",
-#         "run out (Shakib Al Hasan/†Mushfiqur Rahim)",
-#         "28 29 46 4 0 96.55",
-#         "Gautam Gambhir ",
-#         "b Mahmudullah",
-#         "39 39 49 3 0 100.00",
-#         "Virat Kohli ",
-#         "not out 100 83 113 8 2 120.48",
-#         "Yusuf Pathan ",
-#         "c †Mushfiqur Rahim b Shafiul Islam",
-#         "8 10 10 0 0 80.00",
-#     ],
-#     [
-#         "Alex Obanda ",
-#         "lbw b Southee",
-#         "6 19 27 0 0 31.57",
-#         "Seren Waters ",
-#         "lbw b Bennett",
-#         "16 42 49 1 0 38.09",
-#         "Collins Obuya ",
-#         "lbw b Bennett",
-#         "14 19 32 2 0 73.68",
-#         "Steve Tikolo ",
-#         "b Bennett",
-#         "2 2 4 0 0 100.00",
-#         "Morris Ouma †",
-#         "lbw b Bennett",
-#         "1 6 12 0 0 16.66",
-#         "Rakep Patel ",
-#         "not out 16 23 46 1 0 69.56",
-#         "Jimmy Kamande (c)",
-#         "c †BB McCullum b Oram",
-#         "2 16 19 0 0 12.50",
-#         "Thomas Odoyo ",
-#         "c Ryder b Oram",
-#         "2 6 6 0 0 33.33",
-#         "Nehemiah Odhiambo ",
-#         "b Southee",
-#         "0 6 6 0 0 0.00",
-#         "Shem Ngoche ",
-#         "lbw b Southee",
-#         "0 1 1 0 0 0.00",
-#         "Elijah Otieno ",
-#         "c Styris b Oram",
-#         "0 4 4 0 0 0.00",
-#     ],
-# # ]
-# [
-#         "Virender Sehwag ",
-#         "175 140 198 14 5 125.00",
-#         "Sachin Tendulkar ",
-#         "28 29 46 4 0 96.55",
-#         "Gautam Gambhir ",
-#         "39 39 49 3 0 100.00",
-#         "Virat Kohli ",
-#         "not out 100 83 113 8 2 120.48",
-#         "Yusuf Pathan ",
-#         "8 10 10 0 0 80.00",
-#     ]
