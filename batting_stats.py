@@ -252,7 +252,7 @@ if __name__ == "__main__":
 
     process_batsman_data(batsman_data ,all_persons_batting , total_runs , total_balls , total_fours , total_sixes , total_minutes_played , strike_rate)
 
-    make_csv("batsman_data" , headers , all_persons_batting , total_runs , total_balls , total_fours , total_sixes , total_minutes_played , strike_rate)
+    make_csv("batsman_data" , headers , all_persons_batting , total_runs , total_balls ,total_minutes_played,  total_fours , total_sixes  , strike_rate)
 
    
 while True:
