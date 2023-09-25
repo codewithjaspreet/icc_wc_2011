@@ -1,5 +1,4 @@
 ##  Initialising table 1 - Batsman_Data
-##  Initialising table 2 - Bowlers_Data
 
 
 ```sql
@@ -23,6 +22,11 @@ create table batting (
 
 );
 
+```
+
+##  Initialising table 2 - Bowlers_Data
+
+```sql
 
 CREATE TABLE bowling (
     Player_Name VARCHAR(255),
@@ -40,8 +44,14 @@ CREATE TABLE bowling (
 
 ```
 
+```sql
+
 
 select * from batting;
+select * from bowling
+
+
+```
 
 
 ##  Top 5 Run Scorer in World Cup 2011
@@ -103,5 +113,87 @@ group by bt.player_name
 order by total_ducks desc limit 1;
 
 
+
+```
+
+
+## Top 5 players with most no.of sixes in the tounament
+
+
+```sql
+select bt.player_name  , sum(sixes) as total_six
+
+from batting bt 
+
+group by bt.player_name
+
+order by total_six desc limit 5;
+```
+
+
+## Top 5 Players with most no. of fours in the tounament
+
+
+```sql
+
+
+select bt.player_name  , sum(fours) as total_fours
+
+from batting bt 
+
+group by bt.player_name
+
+order by total_fours desc limit 5;
+
+
+```
+
+
+
+
+## Player Most no.of half centuries 
+
+```sql
+
+select bt.player_name  , count(*) as total_50
+
+from batting bt 
+
+where runs >= 50 
+
+group by bt.player_name
+
+order by total_50 desc limit 1;
+
+```
+## Player Most no.of centuries 
+
+
+```sql
+
+select bt.player_name  , count(*) as total_100
+
+from batting bt 
+
+where runs >= 100 
+
+group by bt.player_name
+
+order by total_100 desc limit 1;
+
+```
+
+##  Top 3 Highest batting scores 
+
+
+```sql
+
+
+select bt.player_name  ,max(runs) as max_run
+
+from batting bt 
+group by  bt.player_name
+
+order by max_run desc limit 3;
 
 ```
