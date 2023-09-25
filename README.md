@@ -1,4 +1,5 @@
-# Project Title
+# ICC 2011 World Cup Analysis 🏏📊
+
 
 ![worldcup](https://github.com/codewithjaspreet/icc_wc_2011/assets/85099922/157805b7-36e8-4589-898f-f7575f744fdb)
 
@@ -61,3 +62,12 @@ identify trends, and test hypotheses regarding the tournament.
 
 
 [Link to Deployment](deployment_instructions_link_here)
+
+
+## Conclusion
+
+🚀 I hope you found our ICC Men's 2011 World Cup analysis project informative and valuable for your data journey.
+
+🌟 Don't forget to give our project a star ⭐ if you found it helpful! 
+
+
