@@ -153,6 +153,44 @@ def process_batsman_data(batting_data, all_person_batting, total_runs, total_bal
 
        
 
+def process_bowlers_data(bowler_data  , name_list , overs_list , maidens_list , runs_given_list , wickets_taken_list , economy_rate_list , dot_balls_list , fours_hitten_list , sixes_hitten_list , wide_deliveries_list , no_balls_list):
+
+#     "Zaheer Khan\n10 0 40\n2\n4.00 35 2 0 4 0",
+
+    for data in bowler_data:
+
+        split_data = data.split("\n")
+
+        name_list.append(split_data[0])
+
+        overs_list.append(split_data[1].split(" ")[0])
+
+        maidens_list.append(split_data[1].split(" ")[1])
+
+        runs_given_list.append(split_data[1].split(" ")[2])
+
+        wickets_taken_list.append(split_data[2])
+
+        stats = split_data[3].split(" ")
+
+        economy_rate_list.append(stats[0])
+
+        dot_balls_list.append(stats[1])
+
+        fours_hitten_list.append(stats[2])
+
+        sixes_hitten_list.append(stats[3])
+
+        wide_deliveries_list.append(stats[4])
+
+        no_balls_list.append(stats[5])
+
+
+
+
+
+
+
 
             
 
@@ -247,14 +285,46 @@ if __name__ == "__main__":
 
     all_persons_batting =[]
     total_runs, total_balls, total_fours, total_sixes , total_minutes_played , strike_rate = [], [], [], [],[],[]
+
     headers = ["Name", "Runs", "Balls", "Minutes Played", "Fours", "Sixes", "Strike Rate"]
+    headers_2 = [
+    "Name",
+    "Overs",          # O
+    "Maidens",        # M
+    "Runs Given",    # R
+    "Wickets Taken",  # W
+    "Economy Rate",   # ECON
+    "Dot Balls",      # 0s
+    "Fours hitten",      # 4s
+    "Sixes hitten",      # 6s
+    "Wide Deliveries", # WD
+    "No Balls"        # NB
+]
 
 
-    process_batsman_data(batsman_data ,all_persons_batting , total_runs , total_balls , total_fours , total_sixes , total_minutes_played , strike_rate)
+    name_list = []
+    overs_list = []
+    maidens_list = []
+    runs_given_list = []
+    wickets_taken_list = []
+    economy_rate_list = []
+    dot_balls_list = []
+    fours_hitten_list = []
+    sixes_hitten_list = []
+    wide_deliveries_list = []
+    no_balls_list = []
 
-    make_csv("batsman_data" , headers , all_persons_batting , total_runs , total_balls ,total_minutes_played,  total_fours , total_sixes  , strike_rate)
+   # process_batsman_data(batsman_data ,all_persons_batting , total_runs , total_balls , total_fours , total_sixes , total_minutes_played , strike_rate)
 
-   
+    #make_csv("batsman_data" , headers , all_persons_batting , total_runs , total_balls ,total_minutes_played,  total_fours , total_sixes  , strike_rate)
+
+
+    process_bowlers_data(bowler_data  , name_list , overs_list , maidens_list , runs_given_list , wickets_taken_list , economy_rate_list , dot_balls_list , fours_hitten_list , sixes_hitten_list , wide_deliveries_list , no_balls_list)
+
+
+    make_csv("bowler_data" , headers_2 , name_list , overs_list , maidens_list , runs_given_list , wickets_taken_list , economy_rate_list , dot_balls_list , fours_hitten_list , sixes_hitten_list , wide_deliveries_list , no_balls_list)
+
+
 while True:
     pass  
 
