@@ -9,8 +9,8 @@
 2. [Web Scraping](#web-scraping)
 3. [Data Cleaning](#data-cleaning)
 4. [Exploratory Analysis using SQL](#exploratory-analysis-using-sql)
-5. [Dashboard Designing](#dashboard-designing)
-6. [Deployment](#deployment)
+5. [Dashboard Designing](#dashboard-designing) ---- IN PROGRESS
+6. [Deployment](#deployment) --- IN PROGRESS
 
 ## Data
 
@@ -37,9 +37,7 @@ Data Collected & Scraping Code can be found below ⬇️⬇️
 
 ## Data Cleaning
 
-Describe the data cleaning process here. Explain how you handled missing values, duplicates, outliers, or any other data quality issues. Share code snippets or examples if possible.
-
-[Link to Data Cleaning Code](data_cleaning_code_link_here)
+Here I handled missing values, Special Character, or any other data quality issues using MS EXCEL  
 
 ## Exploratory Analysis using SQL
 
@@ -61,7 +59,7 @@ identify trends, and test hypotheses regarding the tournament.
 ## Deployment
 
 
-[Link to Deployment](deployment_instructions_link_here)
+[Link to Deployment](deployment_instructions_link_here) 
 
 
 ## Conclusion
