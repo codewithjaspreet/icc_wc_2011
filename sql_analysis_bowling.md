@@ -73,6 +73,32 @@ order by  total_times desc   limit 3;
 ```
 
 
+## Bowler with most number of dotballs
+
+```sql
+
+select bw.player_name , sum(bw.dotballs) as total_dots from bowling bw
+
+group by bw.player_name 
+
+order by total_dots desc limit 1;
+
+```
+
+
+## Bowler with most no. of maiden overs
+
+```sql
+
+select bw.player_name , sum(bw.maidens) as total_maiden from bowling bw
+
+group by bw.player_name 
+
+order by total_maiden desc limit 1;
+```
+
+
+
 
 
 
